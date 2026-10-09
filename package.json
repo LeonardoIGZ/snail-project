@@ -1,0 +1,32 @@
+{
+  "name": "@snail-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "typecheck": "pnpm -r typecheck",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "pnpm",
+    "node",
+    "express",
+    "jwt",
+    "typescript",
+    "zod"
+  ],
+  "author": "@leonardoigz",
+  "license": "ISC",
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "12.10.1",
+      "onFail": "download"
+    }
+  },
+  "type": "module",
+  "packageManager": "pnpm@12.10.1",
+  "engines": {
+    "node": ">=22.12"
+  }
+}

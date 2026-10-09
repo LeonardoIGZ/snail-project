@@ -1,0 +1,9 @@
+packages:
+  - apps/*
+  - packages/*
+minimumReleaseAge: 1440
+catalog:
+  typescript: ~6.0.0
+  zod: ^4.0.0
+allowBuilds:
+  esbuild: true

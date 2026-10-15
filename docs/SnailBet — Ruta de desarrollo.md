@@ -8,14 +8,14 @@ En la v2, el backend es la fuente de verdad: autentica, guarda el saldo y proces
 
 Con 1 a 2 horas diarias, la ruta completa toma de 8 a 10 semanas. Las fases 0 a 5 ya forman un proyecto presentable; las 6 a 8 lo elevan.
 
-| Tema | v1 (prueba técnica) | v2 |
-| --- | --- | --- |
-| Autenticación | Simulada en el navegador, hash PBKDF2 en el cliente | En el API: hash argon2id y sesión en cookie httpOnly |
-| Persistencia | localStorage | PostgreSQL con migraciones versionadas |
-| Saldo | Número en el perfil que el frontend modifica | Libro de movimientos en centavos; solo el backend lo cambia |
-| Pagos | Tarjeta y CVV guardados en localStorage | Solo los últimos 4 dígitos; idempotencia; SnailPay como servicio aparte |
-| Carreras | Simuladas en el navegador en cada recarga | Simuladas en el servidor una vez por día y guardadas |
-| Contratos | Tipos solo en el frontend | Schemas zod compartidos entre API y web |
+| Tema          | v1 (prueba técnica)                                 | v2                                                                      |
+| ------------- | --------------------------------------------------- | ----------------------------------------------------------------------- |
+| Autenticación | Simulada en el navegador, hash PBKDF2 en el cliente | En el API: hash argon2id y sesión en cookie httpOnly                    |
+| Persistencia  | localStorage                                        | PostgreSQL con migraciones versionadas                                  |
+| Saldo         | Número en el perfil que el frontend modifica        | Libro de movimientos en centavos; solo el backend lo cambia             |
+| Pagos         | Tarjeta y CVV guardados en localStorage             | Solo los últimos 4 dígitos; idempotencia; SnailPay como servicio aparte |
+| Carreras      | Simuladas en el navegador en cada recarga           | Simuladas en el servidor una vez por día y guardadas                    |
+| Contratos     | Tipos solo en el frontend                           | Schemas zod compartidos entre API y web                                 |
 
 ## Qué vive en cada lado
 
@@ -55,16 +55,16 @@ snailbet/
 
 El API se organiza en capas: las rutas reciben, los controladores traducen HTTP, los servicios aplican las reglas de negocio y los repositorios hablan con la base de datos. Un controlador nunca toca SQL y un servicio nunca conoce `req` ni `res`.
 
-| Capa | Herramienta | Por qué |
-| --- | --- | --- |
-| Base de datos | PostgreSQL | Ya la dominas; transacciones y restricciones `CHECK` protegen el saldo |
-| Acceso a datos | Drizzle ORM | SQL tipado y cercano al SQL que ya escribes; migraciones versionadas |
-| Contraseñas | argon2id | Recomendación actual de OWASP para servidores |
-| Validación | zod 4 en `packages/contracts` | Un mismo schema valida en el API y en los formularios |
-| Logs | pino | Logs estructurados en JSON con un id por petición |
-| Web | React, React Router, TanStack Query, react-hook-form, Tailwind | Estado del servidor separado del estado de la interfaz |
-| Pruebas | Vitest, Supertest, Testcontainers, MSW, Playwright | Una herramienta por capa (ver Estrategia de pruebas) |
-| Infraestructura | Docker Compose, GitHub Actions, VPS con Nginx | Entorno reproducible, CI en cada push, despliegue con HTTPS |
+| Capa            | Herramienta                                                    | Por qué                                                                |
+| --------------- | -------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| Base de datos   | PostgreSQL                                                     | Ya la dominas; transacciones y restricciones `CHECK` protegen el saldo |
+| Acceso a datos  | Drizzle ORM                                                    | SQL tipado y cercano al SQL que ya escribes; migraciones versionadas   |
+| Contraseñas     | argon2id                                                       | Recomendación actual de OWASP para servidores                          |
+| Validación      | zod 4 en `packages/contracts`                                  | Un mismo schema valida en el API y en los formularios                  |
+| Logs            | pino                                                           | Logs estructurados en JSON con un id por petición                      |
+| Web             | React, React Router, TanStack Query, react-hook-form, Tailwind | Estado del servidor separado del estado de la interfaz                 |
+| Pruebas         | Vitest, Supertest, Testcontainers, MSW, Playwright             | Una herramienta por capa (ver Estrategia de pruebas)                   |
+| Infraestructura | Docker Compose, GitHub Actions, VPS con Nginx                  | Entorno reproducible, CI en cada push, despliegue con HTTPS            |
 
 **Decisiones a tomar en la fase 0**, cada una registrada como un ADR corto en `docs/adr/`:
 
@@ -201,14 +201,14 @@ Terminada cuando: el repo explica sus decisiones sin que tú estés presente.
 
 El peso va en las pruebas de integración del API contra un PostgreSQL real: ahí viven los errores que importan (transacciones, restricciones, concurrencia), y un mock de la base los escondería. Las demás capas cubren lo que la integración no ve.
 
-| Capa | Herramienta | Qué se prueba | Ejemplo |
-| --- | --- | --- | --- |
-| Lógica pura | Vitest | Reglas sin base ni HTTP | La simulación del día siempre suma 6 victorias |
-| Contratos | Vitest | Schemas compartidos | La contraseña nunca se recorta |
-| API con base de datos | Supertest y Testcontainers | Endpoints de punta a punta contra PostgreSQL | Un correo duplicado responde 409 y no crea filas |
-| Integración con SnailPay | Supertest y un servidor falso | Cada escenario de la pasarela | Un timeout deja el pago como fallido y no abona saldo |
-| Componentes web | Testing Library y MSW | Lo que el usuario ve ante cada respuesta | Un correo duplicado muestra el error bajo el campo correcto |
-| Flujo completo | Playwright | El camino crítico en un navegador real | Registro, recarga y saldo actualizado |
+| Capa                     | Herramienta                   | Qué se prueba                                | Ejemplo                                                     |
+| ------------------------ | ----------------------------- | -------------------------------------------- | ----------------------------------------------------------- |
+| Lógica pura              | Vitest                        | Reglas sin base ni HTTP                      | La simulación del día siempre suma 6 victorias              |
+| Contratos                | Vitest                        | Schemas compartidos                          | La contraseña nunca se recorta                              |
+| API con base de datos    | Supertest y Testcontainers    | Endpoints de punta a punta contra PostgreSQL | Un correo duplicado responde 409 y no crea filas            |
+| Integración con SnailPay | Supertest y un servidor falso | Cada escenario de la pasarela                | Un timeout deja el pago como fallido y no abona saldo       |
+| Componentes web          | Testing Library y MSW         | Lo que el usuario ve ante cada respuesta     | Un correo duplicado muestra el error bajo el campo correcto |
+| Flujo completo           | Playwright                    | El camino crítico en un navegador real       | Registro, recarga y saldo actualizado                       |
 
 Dos hábitos de la v1 que se mantienen: escribir la prueba junto con el código y verla fallar antes de confiar en ella.
 

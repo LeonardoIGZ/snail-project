@@ -1,24 +1,27 @@
 {
-    "name": "@snail-project/api",
-    "private": true,
-    "type": "module",
-    "exports": {
-        ".": "./src/index.ts"
-    },
-    "scripts": {
-        "typecheck": "tsc --noEmit"
-    },
-    "dependencies": {
-        "@snail-project/contracts": "workspace:*",
-        "cors": "^2.8.6",
-        "express": "^5.2.1",
-        "zod": "catalog:"
-    },
-    "devDependencies": {
-        "@types/cors": "^2.8.19",
-        "@types/express": "^5.0.6",
-        "@types/node": "^26.6.4",
-        "tsx": "^4.23.15",
-        "typescript": "catalog:"
-    }
+  "name": "@snail-project/api",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@snail-project/contracts": "workspace:*",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.6.4",
+    "tsx": "^4.23.15",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
 }

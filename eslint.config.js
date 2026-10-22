@@ -21,10 +21,7 @@ export default defineConfig([
   },
   {
     files: ["apps/web/**/*.{ts,tsx}"],
-    extends: [
-      reactHooks.configs.flat.recommended,
-      reactRefresh.configs.vite,
-    ],
+    extends: [reactHooks.configs.flat.recommended, reactRefresh.configs.vite],
     languageOptions: { globals: globals.browser },
   },
   { files: ["**/*.js"], extends: [tseslint.configs.disableTypeChecked] },
